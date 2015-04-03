@@ -75,6 +75,13 @@ public class GCMIntentService extends GCMBaseIntentService {
                 if (extras.getString("message") != null && extras.getString("message").length() != 0) {
                     createNotification(context, extras);
                 }
+                else if (extras.getString("payload") != null) {
+                   JSONObject payload = extras.getString("payload");
+                   JSONObject data = payload.getJSONObject("data");
+                   String message = data.getString("alert") //parse puts the message as an alert if you don't use custom json payload
+                   extras.putString("message", alert);
+                   createNotification(context, extras);
+                }
             }
         }
 	}
